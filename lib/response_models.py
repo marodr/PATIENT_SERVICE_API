@@ -14,6 +14,14 @@ from pydantic import BaseModel
 # the new type annotation syntax/type hints:
 # i.e name: str
 
+class AppointmentBase(BaseModel):
+    id: int
+    patient_id: int
+    physician_id: int
+    appointment_date: datetime.date
+    description: str
+    
+
 class EmployeeBase(BaseModel):
     first_name: str
     last_name: str
