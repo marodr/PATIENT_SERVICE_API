@@ -7,7 +7,7 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from lib import patient_crud, physician_crud, employee_crud, appointment_crud
+from lib import patient_crud, physician_crud
 from lib import response_models
 from lib.database_connection import SessionLocal
 
@@ -34,13 +34,3 @@ def get_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
 def get_physicians(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     physicians = physician_crud.get_physicians(db, skip=skip, limit=limit)
     return physicians
-
-@app.get("/employees/", response_model=List[response_models.EmployeeBase])
-def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    employees = employee_crud.get_employees(db, skip=skip, limit=limit)
-    return employees
-
-@app.get("/appointments/", response_model=List[response_models.AppointmentBase])
-def get_appointments(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    appointments = appointment_crud.get_appointments(db, skip=skip, limit=limit)
-    return appointments

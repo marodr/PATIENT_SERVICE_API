@@ -14,14 +14,6 @@ from pydantic import BaseModel
 # the new type annotation syntax/type hints:
 # i.e name: str
 
-class AppointmentBase(BaseModel):
-    id: int
-    patient_id: int
-    physician_id: int
-    appointment_date: datetime.date
-    description: str
-    
-
 class EmployeeBase(BaseModel):
     first_name: str
     last_name: str
@@ -30,7 +22,7 @@ class EmployeeBase(BaseModel):
     hospital_id: int
     department_id: int
 
-class Physician(EmployeeBase):
+class Physician(Employee):
     id: int
     specialty: str
 
@@ -47,6 +39,14 @@ class Patient(BaseModel):
     address: str
     physician_id: int
 
+    class Config:
+        orm_mode = True
+
+class Hospital(BaseModel):
+    id: int
+    name: str
+    address: str
+
     # This Config class is used to provide configurations to Pydantic.
     # https://docs.pydantic.dev/latest/api/config/
     # Pydantic's orm_mode will tell the Pydantic model to read the data 
@@ -54,3 +54,28 @@ class Patient(BaseModel):
     # i.e. id = data["id"] or id = data.id
     class Config:
         orm_mode = True
+
+
+
+class Prescription(BaseModel):
+    id: int
+    patient_id: int
+    prescribing_physician_id: int
+    medication_id: int
+    prescription_date: datetime.date
+    quantity: int
+    dosage: str
+    frequency: str
+    start_date: datetime.date
+    end_date: datetime.date
+    refills_available: int
+
+    class Config:
+        orm_mode = True
+        
+        
+class Insurance (BaseModel):
+    id: int
+    provider_name: str
+    policy_number: str
+    patient_id: int
