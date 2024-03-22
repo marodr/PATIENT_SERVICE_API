@@ -22,7 +22,7 @@ class EmployeeBase(BaseModel):
     hospital_id: int
     department_id: int
 
-class Physician(Employee):
+class Physician(EmployeeBase):
     id: int
     specialty: str
 
