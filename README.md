@@ -15,7 +15,7 @@
 <h3 align="center">PATIENT_SERVICE_API</h3>
 
   <p align="center">
-    This is a patient service api that will save and retrieve patient details. 
+    This is a patient service api that will save and retrieve patient details.
     <br />
     <a href="https://github.com/se-2024/PATIENT_SERVICE_API/blob/main/docs/README.md"><strong>Explore the docs »</strong></a>
     <br />

@@ -14,22 +14,7 @@ from pydantic import BaseModel
 # the new type annotation syntax/type hints:
 # i.e name: str
 
-class Department(BaseModel):
-    id: int
-    name: str
-    hospital_id: int
-
-class Medication(BaseModel):
-    id: int
-    name: str
-    brand: str
-    description: str
-    
-    
-    class Config:
-        orm_mode = True
-        
-class Employee(BaseModel):
+class EmployeeBase(BaseModel):
     first_name: str
     last_name: str
     ssn: str
@@ -37,7 +22,7 @@ class Employee(BaseModel):
     hospital_id: int
     department_id: int
 
-class Physician(Employee):
+class Physician(EmployeeBase):
     id: int
     specialty: str
 

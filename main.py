@@ -5,9 +5,10 @@
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from sqlalchemy.orm import Session
 
-from lib import appointment_crud, employee_crud, hospital_crud, patient_crud, physician_crud, department_crud, prescription_crud, medication_crud, insurance_crud
+from lib import employee_crud, hospital_crud, patient_crud, physician_crud, department_crud, prescription_crud, medication_crud, insurance_crud
 from lib import response_models
 from lib.database_connection import SessionLocal
 
@@ -19,15 +20,6 @@ origins = [
     "http://localhost:3000",
 ]
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 # Dependency
 def get_db():
@@ -42,9 +34,12 @@ async def root():
     return {"message": "Hello World"}
 
 @app.get("/patients/", response_model=List[response_models.Patient])
-def get_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    patients = patient_crud.get_patients(db, skip=skip, limit=limit)
-    return patients
+def get_patients(skip: int = 0, limit: int = 100, sort="desc", db: Session = Depends(get_db)):
+    try:
+        patients = patient_crud.get_patients(db, skip=skip, limit=limit, sort=sort)
+        return patients
+    except:
+        raise HTTPException(status_code=418, detail=f"Error getting patients")
 
 @app.get("/patients/{id}", response_model=response_models.Patient, tags=["Patient Methods"])
 def get_patients_by_id(id:int , db: Session = Depends(get_db)):
@@ -89,11 +84,6 @@ def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return employees
 
 @app.get("/hospitals/", response_model=List[response_models.Hospital])
-def get_hospitals(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    hospitals = hospital_crud.get_hospitals(db, skip=skip, limit=limit)
-    return hospitals
-
-@app.get("/appointments/", response_model=List[response_models.Appointment])
-def get_appointments(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    appointments = appointment_crud.get_appointments(db, skip=skip, limit=limit)
-    return appointments
+def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    employees = hospital_crud.get_hospitals(db, skip=skip, limit=limit)
+    return employees
