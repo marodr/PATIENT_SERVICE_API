@@ -83,3 +83,12 @@ class Hospital(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     address = Column(String)
+
+class Appointment(Base):
+    __tablename__ = "appointment"
+    id = Column(Integer, primary_key=True)
+    patient_id = Column(Integer, ForeignKey('patient.id'))
+    physician_id = Column(Integer, ForeignKey('physician.id'))
+    appointment_date = Column(Date)
+    description = Column(String, nullable=False)
+

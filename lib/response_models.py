@@ -57,6 +57,25 @@ class Patient(BaseModel):
     class Config:
         orm_mode = True
 
+class PatientCreate(BaseModel):
+    first_name: str
+    last_name: str
+    dob: datetime.date
+    ssn: str
+    gender: str
+    address: str
+
+class Appointment(BaseModel):
+    id: int
+    patient_id: int
+    physician_id: int
+    appointment_date: datetime.date
+    description: str
+
+    class Config:
+        orm_mode = True
+
+
 class Hospital(BaseModel):
     id: int
     name: str
